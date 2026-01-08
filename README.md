@@ -1,2 +1,0 @@
-# Leave-Management-SSD
-project
