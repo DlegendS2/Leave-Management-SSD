@@ -1,3 +1,4 @@
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -57,3 +58,110 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# Leave Management System
+
+## 1. Project Description
+This is a web-based Leave Management System built with **Laravel** and **Bootstrap 5**.  
+It allows staff to submit leave requests with optional medical proofs, and admins to approve or reject them.  
+Features include role-based access control, audit logging, secure file uploads, and session management.
+
+---
+
+## 2. Installation Steps
+
+1. Clone the repository:
+```bash
+git clone https://github.com/DlegendS2/Leave-Management-SSD.git
+cd Leave-Management-SSD
+```
+2. Copy environment file and configure:
+```bash
+cp .env.example .env
+```
+3. Generate Laravel application key:
+```bash
+php artisan key:generate
+```
+4. Configure database in .env:
+```bash
+DB_DATABASE=leave_management
+DB_USERNAME=root
+DB_PASSWORD=
+```
+5. Run migrations and seed admin:
+```bash
+php artisan migrate
+php artisan db:seed --class=AdminSeeder
+```
+6. Create storage link for files:
+```bash
+php artisan storage:link
+```
+7. Start the local development server
+```bash
+php artisan serve
+```
+Access the application at http://127.0.0.1:8000.
+
+## 3. Security Features Summary
+Authentication & Session Security:
+- CSRF protection enabled
+- Secure login with hashed passwords (bcrypt)
+- Session timeout and invalidation on logout
+
+Access Control:
+- Role-Based Access Control (RBAC) for staff/admin
+- Prevents IDOR (users cannot access others’ data)
+
+Input Validation:
+- Server-side and client-side input validation
+- Leave dates validated (start_date <= end_date)
+- File uploads validated for type and size
+
+File Upload Security:
+- Files stored in storage/app/private/medical_proofs
+- Only allowed types: PDF, JPG, JPEG, PNG
+- Max size: 2MB
+
+Sensitive Data Protection:
+- Passwords hashed using bcrypt
+- No plaintext credentials logged
+- HTTPS recommended for deployment
+
+Logging & Monitoring:
+- Audit logs track user actions (login, logout, leave applied, admin actions)
+
+Error Handling & Output Encoding:
+- Custom messages for invalid login, leave errors, and file download errors
+- Validation errors displayed to users without leaking sensitive info
+
+## 4. How to Run the App
+1. Make sure PHP >= 8.1, Composer, MySQL, and XAMPP are installed.
+2. Configure .env with your database.
+3. Run migrations and seeders:
+```bash
+php artisan migrate --seed
+```
+
+4. Start server:
+```bash
+php artisan serve
+```
+5. Access via browser: http://127.0.0.1:8000
+- Staff login redirects to profile page
+- Admin login redirects to dashboard with leave approvals and audit trail
+
+## 5. Dependencies
+- Laravel Framework 10.x
+- PHP 8.1+
+- MySQL
+- Composer
+- Bootstrap 5
+- Font Awesome 6
+
+## 6. Screenshot of the system
+<img width="1853" height="862" alt="image_2026-01-12_184637033" src="https://github.com/user-attachments/assets/06940d82-23f2-4406-82f9-aa239ab0b911" />
+<img width="1839" height="856" alt="image_2026-01-12_184729996" src="https://github.com/user-attachments/assets/840bd938-4abb-43b2-aa7b-dff4ef98ed54" />
+<img width="1861" height="848" alt="image_2026-01-12_184807008" src="https://github.com/user-attachments/assets/b3b0640e-240d-44cb-a599-a4dc7c1b317c" />
+<img width="1842" height="856" alt="image_2026-01-12_184829432" src="https://github.com/user-attachments/assets/0586e121-2fd8-47ad-b24b-d41ed295227f" />
