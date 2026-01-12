@@ -31,14 +31,18 @@ class LeaveController extends Controller
         return view('staff.leave_create');
     }
 
-    // Store leave in database
-    public function store(Request $request)
+   // Store leave in database
+public function store(Request $request)
 {
     $request->validate([
-        'start_date' => 'required|date',
-        'end_date' => 'required|date|after_or_equal:start_date',
-        'reason' => 'required|string|max:500',
-        'medical_proof' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        'start_date' => ['required', 'date'],
+        'end_date'   => ['required', 'date', 'after_or_equal:start_date'],
+        'reason' => ['required', 'string', 'max:500'],
+        'medical_proof' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:2048'],
+    ], [
+        'end_date.after_or_equal' => 'End date must be after or equal to the start date.',
+        'medical_proof.mimes' => 'Only PDF, JPG, JPEG, or PNG files are allowed.',
+        'medical_proof.max'   => 'File size cannot exceed 2MB.',
     ]);
 
     $data = [
@@ -49,13 +53,20 @@ class LeaveController extends Controller
         'status' => 'pending',
     ];
 
+    // Handle optional file upload
     if ($request->hasFile('medical_proof')) {
-        $file = $request->file('medical_proof');
-        $filename = \Str::uuid() . '.' . $file->getClientOriginalExtension();
-        $file->storeAs('private/medical_proofs', $filename);
-        $data['medical_proof'] = $filename;
-    }
+    $file = $request->file('medical_proof');
+    $filename = \Str::uuid() . '.' . $file->getClientOriginalExtension();
 
+    // store on the 'private' disk
+    $file->storeAs('medical_proofs', $filename, 'private');
+
+    $data['medical_proof'] = $filename;
+}
+
+
+
+    // Save leave
     $leave = Leave::create($data);
 
     // Log leave submission
@@ -88,18 +99,18 @@ class LeaveController extends Controller
     }
 
     public function downloadProof(\App\Models\Leave $leave)
-    {
-        // Allow only owner or admin
-        if (auth()->id() !== $leave->user_id && auth()->user()->role !== 'admin') {
-            abort(403); // Forbidden
-        }
-
-        // Check if file exists
-        if (!$leave->medical_proof || !\Storage::disk('private')->exists($leave->medical_proof)) {
-            abort(404, 'File not found');
-        }
-
-        // Download securely
-        return response()->download(storage_path('app/private/' . $leave->medical_proof));
+{
+    if (auth()->id() !== $leave->user_id && auth()->user()->role !== 'admin') {
+        abort(403);
     }
+
+    if (!$leave->medical_proof || !\Storage::disk('private')->exists('medical_proofs/'.$leave->medical_proof)) {
+        abort(404, 'File not found');
+    }
+
+    return \Storage::disk('private')->download('medical_proofs/'.$leave->medical_proof);
+}
+
+
+
 }

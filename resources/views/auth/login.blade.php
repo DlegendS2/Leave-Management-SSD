@@ -20,6 +20,11 @@
         <div class="col-md-4">
             <div class="card p-4 shadow login-card">
                 <h3 class="mb-3 text-center">Login</h3>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
 

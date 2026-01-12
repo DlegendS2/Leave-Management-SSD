@@ -55,13 +55,21 @@ body {
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="col-md-6 leave-card login-card">
         
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         @if(session('success'))
             <div class="alert alert-success text-center">{{ session('success') }}</div>
         @endif
 
-        <h2 class="text-center">Apply for Leave</h2>
-
-        <form action="{{ url('/staff/leave') }}" method="POST" enctype="multipart/form-data">
+        <form id="leaveForm" action="{{ url('/staff/leave') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -80,8 +88,8 @@ body {
             </div>
 
             <div class="mb-3">
-                <label><strong>Medical Proof (optional)</strong></label>
-                <input type="file" name="medical_proof" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
+                <label>Medical Proof (optional)</label>
+                <input type="file" name="medical_proof" id="medical_proof" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
                 <small>Allowed: PDF, JPG, PNG. Max size 2MB.</small>
             </div>
             
@@ -91,5 +99,27 @@ body {
         </form>
     </div>
 </div>
+{{-- Client-side JS validation --}}
+<script>
+document.getElementById('leaveForm').addEventListener('submit', function(e) {
+    const fileInput = document.getElementById('medical_proof');
+    if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+        const maxSize = 2 * 1024 * 1024; // 2MB
 
+        if (!allowedTypes.includes(file.type)) {
+            alert('Invalid file type. Only PDF, JPG, JPEG, PNG allowed.');
+            e.preventDefault();
+            return false;
+        }
+
+        if (file.size > maxSize) {
+            alert('File size exceeds 2MB.');
+            e.preventDefault();
+            return false;
+        }
+    }
+});
+</script>
 @endsection

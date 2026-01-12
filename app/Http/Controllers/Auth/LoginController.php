@@ -25,26 +25,26 @@ class LoginController extends Controller
     ]);
 
     if (!Auth::attempt($credentials)) {
-        return back()->withErrors([
-            'email' => 'Invalid login credentials'
-        ]);
+        return back()
+            ->withErrors(['login' => 'Invalid email or password'])
+            ->withInput();
     }
 
     $request->session()->regenerate();
 
-    // DEBUG: force redirect based on DB role
-    $role = auth()->user()->role;
-
+    // Role-based redirect
     if (auth()->user()->role === 'admin') {
-    return redirect()->intended('/admin/dashboard');
-} else {
-    return redirect()->intended('/staff/profile');
-}
+        return redirect()->intended('/admin/dashboard');
+    }
 
-    // If role is missing or invalid
+    if (auth()->user()->role === 'user') {
+        return redirect()->intended('/staff/profile');
+    }
+
+    // Failsafe
     Auth::logout();
     return back()->withErrors([
-        'email' => 'User role not assigned. Contact admin.'
+        'login' => 'Your account is not configured correctly.'
     ]);
 }
 
