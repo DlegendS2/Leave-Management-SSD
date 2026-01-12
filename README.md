@@ -160,6 +160,7 @@ php artisan serve
 - Bootstrap 5
 - Font Awesome 6
 
+## 6. Screenshot of the system
 <img width="1853" height="862" alt="image_2026-01-12_184637033" src="https://github.com/user-attachments/assets/06940d82-23f2-4406-82f9-aa239ab0b911" />
 <img width="1839" height="856" alt="image_2026-01-12_184729996" src="https://github.com/user-attachments/assets/840bd938-4abb-43b2-aa7b-dff4ef98ed54" />
 <img width="1861" height="848" alt="image_2026-01-12_184807008" src="https://github.com/user-attachments/assets/b3b0640e-240d-44cb-a599-a4dc7c1b317c" />
