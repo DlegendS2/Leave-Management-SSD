@@ -1,3 +1,4 @@
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -159,3 +160,7 @@ php artisan serve
 - Bootstrap 5
 - Font Awesome 6
 
+<img width="1853" height="862" alt="image_2026-01-12_184637033" src="https://github.com/user-attachments/assets/06940d82-23f2-4406-82f9-aa239ab0b911" />
+<img width="1839" height="856" alt="image_2026-01-12_184729996" src="https://github.com/user-attachments/assets/840bd938-4abb-43b2-aa7b-dff4ef98ed54" />
+<img width="1861" height="848" alt="image_2026-01-12_184807008" src="https://github.com/user-attachments/assets/b3b0640e-240d-44cb-a599-a4dc7c1b317c" />
+<img width="1842" height="856" alt="image_2026-01-12_184829432" src="https://github.com/user-attachments/assets/0586e121-2fd8-47ad-b24b-d41ed295227f" />
